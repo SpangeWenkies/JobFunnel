@@ -111,7 +111,7 @@ class BaseIndeedScraper(BaseScraper):
             JobField.KEY_ID,
             JobField.TAGS,
             JobField.POST_DATE,
-            # JobField.REMOTENESS,
+            JobField.REMOTENESS,
             JobField.WAGE,
         ]
 
