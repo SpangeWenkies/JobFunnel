@@ -339,7 +339,7 @@ class BaseScraper(ABC, Logger):
                 if field in self.min_required_job_fields:
                     raise ValueError(
                         "Unable to scrape minimum-required job field: "
-                        f"{field.name} Got error:{err}. {url_str}"
+                        f"{field.name} Got error: {err}. {url_str}"
                     )
                 else:
                     # Crash out gracefully so we can continue scraping.
@@ -490,3 +490,11 @@ class BaseDEGerScraper(BaseScraper):
     @property
     def locale(self) -> Locale:
         return Locale.GERMANY_GERMAN
+
+
+class BaseNLDutScraper(BaseScraper):
+    """Localized scraper for Netherlands Dutch"""
+
+    @property
+    def locale(self) -> Locale:
+        return Locale.NETHERLANDS_DUTCH
