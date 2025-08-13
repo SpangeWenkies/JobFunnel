@@ -20,6 +20,7 @@ from jobfunnel.backend.scrapers.base import (
     BaseScraper,
     BaseUKEngScraper,
     BaseUSAEngScraper,
+    BaseNLDutScraper
 )
 from jobfunnel.backend.tools.filters import JobFilter
 from jobfunnel.backend.tools.tools import calc_post_date_from_relative_str
@@ -544,6 +545,38 @@ class IndeedScraperFRFre(BaseIndeedScraper, BaseFRFreScraper):
 
 class IndeedScraperDEGer(BaseIndeedScraper, BaseDEGerScraper):
     """Scrapes jobs from de.indeed.com"""
+
+    # The german locale has a different number separators.
+    THOUSEP = "."
+
+    def _get_search_url(self, method: Optional[str] = "get") -> str:
+        """Get the indeed search url from SearchTerms"""
+        if method == "get":
+            return (
+                # The URL is different to the base scraper because indeed.de is
+                # redirecting to de.indeed.com. If the redirect is handled the
+                # same URLs can be used.
+                "https://{}.indeed.com/jobs?q={}&l={}&radius={}&"
+                "limit={}&filter={}{}".format(
+                    self.config.search_config.domain,
+                    self.query,
+                    self.config.search_config.city.replace(
+                        " ",
+                        "+",
+                    ),
+                    self._quantize_radius(self.config.search_config.radius),
+                    self.max_results_per_page,
+                    int(self.config.search_config.return_similar_results),
+                    REMOTENESS_TO_QUERY[self.config.search_config.remoteness],
+                )
+            )
+        elif method == "post":
+            raise NotImplementedError()
+        else:
+            raise ValueError(f"No html method {method} exists")
+
+class IndeedScraperNLDut(BaseIndeedScraper, BaseNLDutScraper):
+    """Scrapes jobs from nl.indeed.com"""
 
     # The german locale has a different number separators.
     THOUSEP = "."
