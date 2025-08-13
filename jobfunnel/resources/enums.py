@@ -83,9 +83,13 @@ class DuplicateType(Enum):
 class Provider(Enum):
     """Job source providers"""
 
-    INDEED = 1
-    GLASSDOOR = 2
-    MONSTER = 3
+    INDEED = 1  # Works in NL
+    GLASSDOOR = 2  # Works in NL
+    MONSTER = 3  # Works in NL, but may have different url
+    NATIONALEVACATUREBANK = 4  # Dutch
+    INTERMEDIAIR = 5  # Dutch
+    JOBBIRD = 6  # Dutch
+    YOUNGCAPITAL = 7  # Dutch
 
 
 class DelayAlgorithm(Enum):
