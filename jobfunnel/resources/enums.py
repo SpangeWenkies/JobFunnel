@@ -84,8 +84,8 @@ class Provider(Enum):
     """Job source providers"""
 
     INDEED = 1  # Works in NL
-    GLASSDOOR = 2  # Works in NL
-    MONSTER = 3  # Works in NL, but may have different url
+    GLASSDOOR = 2  # Works in NL, but scraper does not work
+    MONSTER = 3  # Does not work in NL
     NATIONALEVACATUREBANK = 4  # Dutch
     INTERMEDIAIR = 5  # Dutch
     JOBBIRD = 6  # Dutch
