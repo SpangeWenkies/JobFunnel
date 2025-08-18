@@ -17,10 +17,10 @@ from jobfunnel.backend.scrapers.base import (
     BaseCANEngScraper,
     BaseDEGerScraper,
     BaseFRFreScraper,
+    BaseNLDutScraper,
     BaseScraper,
     BaseUKEngScraper,
     BaseUSAEngScraper,
-    BaseNLDutScraper
 )
 from jobfunnel.backend.tools.filters import JobFilter
 from jobfunnel.backend.tools.tools import calc_post_date_from_relative_str
@@ -575,31 +575,35 @@ class IndeedScraperDEGer(BaseIndeedScraper, BaseDEGerScraper):
         else:
             raise ValueError(f"No html method {method} exists")
 
+
 class IndeedScraperNLDut(BaseIndeedScraper, BaseNLDutScraper):
     """Scrapes jobs from nl.indeed.com"""
 
-    # The german locale has a different number separators.
+    # Dutch locale uses '.' as thousands separator and ',' as decimal.
     THOUSEP = "."
 
     def _get_search_url(self, method: Optional[str] = "get") -> str:
         """Get the indeed search url from SearchTerms"""
         if method == "get":
+            days = getattr(self.config.search_config, "max_listing_days", None)
+            fromage_frag = f"&fromage={int(days)}" if days else ""
+            remote_q = ""
+            if self.config.search_config.remoteness == Remoteness.FULLY_REMOTE:
+                remote_q = "&sc=0kf%3Aattr(DSQF7)%3B"
             return (
-                # The URL is different to the base scraper because indeed.de is
-                # redirecting to de.indeed.com. If the redirect is handled the
+                # The URL is different to the base scraper because indeed.nl is
+                # redirecting to nl.indeed.com. If the redirect is handled the
                 # same URLs can be used.
                 "https://{}.indeed.com/jobs?q={}&l={}&radius={}&"
-                "limit={}&filter={}{}".format(
-                    self.config.search_config.domain,
+                "limit={}&filter={}{}{}".format(
+                    self.config.search_config.domain,  # e.g., "nl"
                     self.query,
-                    self.config.search_config.city.replace(
-                        " ",
-                        "+",
-                    ),
+                    self.config.search_config.city.replace(" ", "+"),
                     self._quantize_radius(self.config.search_config.radius),
                     self.max_results_per_page,
                     int(self.config.search_config.return_similar_results),
-                    REMOTENESS_TO_QUERY[self.config.search_config.remoteness],
+                    fromage_frag,
+                    remote_q,
                 )
             )
         elif method == "post":
