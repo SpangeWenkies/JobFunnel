@@ -13,6 +13,7 @@ from jobfunnel.backend.scrapers.indeed import (
     IndeedScraperCANEng,
     IndeedScraperDEGer,
     IndeedScraperFRFre,
+    IndeedScraperNLDut,
     IndeedScraperUKEng,
     IndeedScraperUSAEng,
 )
@@ -32,6 +33,7 @@ SCRAPER_FROM_LOCALE = {
         Locale.UK_ENGLISH: IndeedScraperUKEng,
         Locale.FRANCE_FRENCH: IndeedScraperFRFre,
         Locale.GERMANY_GERMAN: IndeedScraperDEGer,
+        Locale.NETHERLANDS_DUTCH: IndeedScraperNLDut,
     },
     Provider.GLASSDOOR: {
         Locale.CANADA_ENGLISH: GlassDoorScraperCANEng,
