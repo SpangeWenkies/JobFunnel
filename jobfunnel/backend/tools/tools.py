@@ -15,12 +15,12 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager, IEDriverManag
 from webdriver_manager.opera import OperaDriverManager
 
 # Initialize list and store regex objects of date quantifiers
-HOUR_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?(?:hour|hr|heure)")
-DAY_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?(?:day|d|jour)")
-MONTH_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?month|mois")
-YEAR_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?year|annee")
-RECENT_REGEX_A = re.compile(r"[tT]oday|[jJ]ust [pP]osted")
-RECENT_REGEX_B = re.compile(r"[yY]esterday")
+HOUR_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?(?:hour|hr|heure|uur)")
+DAY_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?(?:day|d|jour|dag)")
+MONTH_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?(?:month|mois|maand)")
+YEAR_REGEX = re.compile(r"(\d+)(?:[ +]{1,3})?(?:year|annee|jaar)")
+RECENT_REGEX_A = re.compile(r"[tT]oday|[jJ]ust [pP]osted|[vV]andaag")
+RECENT_REGEX_B = re.compile(r"[yY]esterday|[gG]isteren")
 
 
 def get_logger(
