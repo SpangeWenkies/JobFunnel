@@ -339,8 +339,10 @@ class BaseIndeedScraper(BaseScraper):
             soup = BeautifulSoup(response, self.config.bs4_parser)
 
             script_tag = soup.find("script", id="mosaic-data")
-            if not script_tag:
-                self.logger.warn("No 'mosaic-data' script tag found on the page.")
+            if not script_tag or not script_tag.string:
+                self.logger.warning(
+                    "No 'mosaic-data' script tag found on the page. Indeed returned no job data—possible CAPTCHA or layout change"
+                )
                 return
 
             script_content = script_tag.string
