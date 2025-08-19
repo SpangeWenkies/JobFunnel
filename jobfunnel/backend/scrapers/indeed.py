@@ -125,7 +125,7 @@ class BaseIndeedScraper(BaseScraper):
 
         Override this as needed.
         """
-        return [JobField.URL, JobField.REMOTENESS]
+        return [JobField.URL]
 
     @property
     def delayed_get_set_fields(self) -> str:
@@ -262,18 +262,6 @@ class BaseIndeedScraper(BaseScraper):
             job._raw_scrape_data = BeautifulSoup(
                 self.session.get(job.url).text, self.config.bs4_parser
             )
-
-        elif parameter == JobField.REMOTENESS:
-            remoteness = [
-                tag.split(":")[-1].strip().lower()
-                for tag in job.tags
-                if "remote" in tag.lower()
-            ]
-
-            if len(remoteness):
-                job.remoteness = REMOTENESS_STR_MAP.get(
-                    remoteness[0], Remoteness.UNKNOWN
-                )
 
         elif parameter == JobField.DESCRIPTION:
             assert job._raw_scrape_data
