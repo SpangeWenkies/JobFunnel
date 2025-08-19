@@ -333,6 +333,7 @@ class BaseIndeedScraper(BaseScraper):
             ... need to add some kind of filtering for this!
         """
         url = f"{search}&start={page * self.max_results_per_page}"
+        self.logger.info("Scraping Indeed search page: %s", url)
 
         try:
             response = self.session.get(url).text
